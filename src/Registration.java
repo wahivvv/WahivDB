@@ -55,6 +55,7 @@ public class Registration extends javax.swing.JFrame {
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(102, 153, 0));
         jButton2.setText("LOGIN");
 
         jLabel5.setText("Already Have an Account?");
