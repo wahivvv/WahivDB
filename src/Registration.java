@@ -3,6 +3,11 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -21,6 +26,11 @@ public class Registration extends javax.swing.JFrame {
      */
     public Registration() {
         initComponents();
+        try {
+            Connection();
+        } catch (SQLException ex) {
+            System.getLogger(Registration.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }
 
     
@@ -28,7 +38,7 @@ public class Registration extends javax.swing.JFrame {
     Connection con;
     
     Statement st;
-   
+    PreparedStatement pst;
     
     private static final String DbName = "wahivdb";
     private static final String DbDriver = "com.mysql.cj.jdbc.Driver";
@@ -92,6 +102,7 @@ public class Registration extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("LOGIN");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jLabel5.setText("Already Have an Account?");
 
@@ -161,8 +172,51 @@ public class Registration extends javax.swing.JFrame {
     }//GEN-LAST:event_txtlogRegisterActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
+  String username, password;
+
+if ("".equals(txtlogRegister.getText())) {
+    JOptionPane.showMessageDialog(new JFrame(), "Required Username");
+} else if ("".equals(new String(txtlogPassword.getPassword()))) {
+    JOptionPane.showMessageDialog(new JFrame(), "Required Password");
+} else {
+    username = txtlogRegister.getText();
+    password = new String(txtlogPassword.getPassword());
+
+    String query = "INSERT INTO accountdetails (accUsername, accPassword) VALUES (?, ?)";
+
+    try {
+        PreparedStatement pst = con.prepareStatement(query);
+        pst.setString(1, username);
+        pst.setString(2, password);
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(new JFrame(), "Data added successfully");
+
+        txtlogRegister.setText("");
+        txtlogPassword.setText("");
+
+    } catch (SQLException ex) {
+        Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    Login login = new Login();
+    login.setVisible(true);
+    login.pack();
+    login.setLocationRelativeTo(null);
+    this.dispose();
+        
+        
+ 
+
+                
+        
+               
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,4 +253,18 @@ public class Registration extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtlogPassword;
     private javax.swing.JFormattedTextField txtlogRegister;
     // End of variables declaration//GEN-END:variables
+
+    private static class txtLogUsername {
+
+        private static Object getText() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        private static void setText(String string) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        public txtLogUsername() {
+        }
+    }
 }

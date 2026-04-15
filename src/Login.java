@@ -1,3 +1,14 @@
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -16,7 +27,39 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        try {
+            Connection();
+        } catch (SQLException ex) {
+            System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+          
+        
     }
+    
+     Connection con;
+    
+    Statement st;
+    PreparedStatement pst;
+    
+    private static final String DbName = "wahivdb";
+    private static final String DbDriver = "com.mysql.cj.jdbc.Driver";
+    private static final String DbUrl = "jdbc:mysql://localhost:3306/"+DbName;
+    private static final String DbUsername = "root";
+    private static final String DbPassword = "";
+    
+    
+    public void Connection() throws java.sql.SQLException, java.sql.SQLException { 
+        try {
+            Class.forName(DbDriver);
+            con = DriverManager.getConnection(DbUrl, DbUsername, DbPassword);
+            st = con.createStatement();
+            if (con != null) {
+                System.out.println("Connection successful");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, (String) null, ex);
+        }
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -125,11 +168,34 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtlogPasswordActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+   String username, password;
+        username = txtlogUsername.getText();
+        password = txtlogPassword.getText();
+        String queryLogin = "SELECT * FROM accountdetails WHERE accUsername = '"+ username + "' AND accPassword = '"+ password +"'";
+      
+        try {
+            pst = con.prepareStatement(queryLogin);
+            ResultSet rs = pst.executeQuery();
+            if(!rs.next()) {
+                JOptionPane.showMessageDialog(null, "Invalid Credentials");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Account Match");
+                }
+        } catch (SQLException ex) {
+             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, (String) null, ex);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
+    Registration register = new Registration();
+    register.setVisible(true);
+    register.pack();
+    register.setLocationRelativeTo(null);
+    this.dispose();
+    // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -167,4 +233,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtlogPassword;
     private javax.swing.JFormattedTextField txtlogUsername;
     // End of variables declaration//GEN-END:variables
+
+    private void initComponents() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
