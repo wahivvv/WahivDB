@@ -187,6 +187,12 @@ public class Login extends javax.swing.JFrame {
              Logger.getLogger(Login.class.getName()).log(Level.SEVERE, (String) null, ex);
         }
         
+    Dashboard dashboard = new Dashboard();
+    dashboard.setVisible(true);
+    dashboard.pack();
+    dashboard.setLocationRelativeTo(null);
+    this.dispose();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
