@@ -177,13 +177,13 @@ public class Registration extends javax.swing.JFrame {
 
 if ("".equals(txtlogRegister.getText())) {
     JOptionPane.showMessageDialog(new JFrame(), "Required Username");
-} else if ("".equals(new String(txtlogPassword.getPassword()))) {
+} else if ("".equals(new String(txtlogPassword.getPassword()))){
     JOptionPane.showMessageDialog(new JFrame(), "Required Password");
 } else {
     username = txtlogRegister.getText();
     password = new String(txtlogPassword.getPassword());
 
-    String query = "INSERT INTO accountdetails (accUsername, accPassword) VALUES (?, ?)";
+    String query = "INSERT INTO accountdetails (AccUsername, accPassword) VALUES (?, ?)";
 
     try {
         PreparedStatement pst = con.prepareStatement(query);
@@ -254,7 +254,7 @@ if ("".equals(txtlogRegister.getText())) {
     private javax.swing.JFormattedTextField txtlogRegister;
     // End of variables declaration//GEN-END:variables
 
-    private static class txtLogUsername {
+    private static class txtlogUsername{
 
         private static Object getText() {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -263,8 +263,8 @@ if ("".equals(txtlogRegister.getText())) {
         private static void setText(String string) {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
+        public txtlogUsername() {
 
-        public txtLogUsername() {
         }
     }
 }
